@@ -1,0 +1,51 @@
+body.identity-page {
+    background-color: #f0f2f5;
+}
+
+.identity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.identity-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+    .identity-card h1 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .identity-card .form-floating > .form-control {
+        height: calc(3.5rem + 2px);
+        line-height: 1.25;
+    }
+
+    .identity-card .form-floating > label {
+        padding-top: 1rem;
+    }
+
+    .identity-card .btn-primary {
+        padding: 0.8rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+    }
+
+    .identity-card .sub-links {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+        .identity-card .sub-links a {
+            display: block;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }

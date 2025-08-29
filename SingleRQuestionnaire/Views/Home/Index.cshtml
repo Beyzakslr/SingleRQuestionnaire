@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="d-flex flex-column align-items-center justify-content-center vh-100 bg-light">
+    <div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 600px; background: linear-gradient(135deg, #007bff, #6610f2); color: white;">
+        <h1 class="display-5 fw-bold mb-3">
+            🎉 Gerçek Zamanlı Anket Uygulamasına Hoş Geldiniz
+        </h1>
+        <p class="lead mb-4">
+            🚀 Kendi anketinizi oluşturun ve sonuçları arkadaşlarınızla <strong>anlık</strong> olarak takip edin.
+        </p>
+        <div class="mt-3">
+            <a class="btn btn-light btn-lg px-4 py-2 shadow-sm rounded-pill fw-semibold" 
+               asp-controller="Questionnaire" 
+               asp-action="CreateVote">
+                ➕ Yeni Anket Oluştur
+            </a>
+        </div>
+    </div>
+</div>

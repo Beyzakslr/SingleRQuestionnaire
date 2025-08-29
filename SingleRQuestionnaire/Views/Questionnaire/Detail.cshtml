@@ -1,0 +1,111 @@
+﻿@model Poll
+
+@{
+    ViewData["Title"] = "Anket Detayı";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg rounded-4 p-4">
+                <div class="card-body text-center">
+                    <!-- Anket sorusu -->
+                    <h2 class="mb-3 text-primary fw-bold">@Model.Question</h2>
+                    <p class="text-muted mb-4">
+                        📢 Bu anketin linkini paylaşarak arkadaşlarınızı davet edin!
+                    </p>
+
+                    <!-- Seçenekler -->
+                    <div id="seceneklerListesi" class="mb-4">
+                        <!-- JS ile doldurulacak -->
+                    </div>
+
+                    <!-- Bağlantı durumu -->
+                    <div id="connectionStatus" class="mt-3 fw-semibold text-secondary">
+                        ⏳ Bağlanılıyor...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const pollId = "@Model.Id";
+            const seceneklerListesi = document.getElementById("seceneklerListesi");
+            const connectionStatus = document.getElementById("connectionStatus");
+
+            // Seçenekleri backend'den alıyoruz
+            const anketSecenekleri = @Html.Raw(Json.Serialize(Model.Options.Keys));
+            anketSecenekleri.forEach(secenek => {
+                const optionHtml = `
+                    <div class="mb-4">
+                        <button class="btn btn-outline-primary btn-lg w-100 fw-semibold mb-2 shadow-sm" data-secenek="${secenek}">
+                            ${secenek}
+                        </button>
+                        <div class="progress" style="height: 35px; border-radius: 20px; overflow: hidden;">
+                            <div id="bar-${secenek}"
+                                 class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                 role="progressbar"
+                                 style="width: 0%; font-size: 1rem; transition: width 0.5s ease;"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                0 Oy
+                            </div>
+                        </div>
+                    </div>`;
+                seceneklerListesi.innerHTML += optionHtml;
+            });
+
+            // SignalR bağlantısı
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/questionnairehub")
+                .withAutomaticReconnect()
+                .build();
+
+            // Sunucudan gelen sonuçları güncelle
+            connection.on("voteUpdate", (sonuclar) => {
+                let toplamOy = Object.values(sonuclar).reduce((a, b) => a + b, 0);
+                anketSecenekleri.forEach(secenek => {
+                    const oySayisi = sonuclar[secenek] || 0;
+                    const yuzde = toplamOy === 0 ? 0 : (oySayisi / toplamOy * 100);
+                    const progressBar = document.getElementById(`bar-${secenek}`);
+                    if (progressBar) {
+                        progressBar.style.width = yuzde.toFixed(2) + "%";
+                        progressBar.innerText = `${oySayisi} Oy (${yuzde.toFixed(1)}%)`;
+                    }
+                });
+            });
+
+            // Oy verme butonları
+            seceneklerListesi.addEventListener('click', function (e) {
+                if (e.target && e.target.matches('button[data-secenek]')) {
+                    const secilen = e.target.getAttribute('data-secenek');
+                    connection.invoke("Vote", pollId, secilen).catch(err => console.error(err.toString()));
+                }
+            });
+
+            // Bağlantıyı başlat
+            async function start() {
+                try {
+                    await connection.start();
+                    connectionStatus.innerText = "✅ Bağlantı kuruldu!";
+                    connectionStatus.classList.remove("text-secondary");
+                    connectionStatus.classList.add("text-success");
+                    await connection.invoke("JoinPollGroup", pollId);
+                } catch (err) {
+                    console.error("SignalR bağlantısı kurulamadı: ", err);
+                    connectionStatus.innerText = "❌ Bağlantı hatası, tekrar deneniyor...";
+                    connectionStatus.classList.remove("text-success");
+                    connectionStatus.classList.add("text-danger");
+                    setTimeout(start, 5000);
+                }
+            }
+
+            start();
+        });
+    </script>
+}

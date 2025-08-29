@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Yeni Anket Oluştur";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card shadow-lg p-4 p-md-5 rounded-4" style="max-width: 600px; width: 100%;">
+        <h2 class="text-center text-primary mb-4">📝 Yeni Anket Oluştur</h2>
+        <p class="text-muted text-center mb-4">Sorunuzu ve seçeneklerinizi ekleyin, arkadaşlarınızla paylaşın 🚀</p>
+        <hr />
+
+        <form asp-action="CreateVote" method="post">
+            <div class="mb-3">
+                <label for="question" class="form-label fw-semibold">Anket Sorusu</label>
+                <input type="text" id="question" name="question"
+                       class="form-control form-control-lg shadow-sm"
+                       placeholder="Anket sorunuzu buraya yazın..." required />
+            </div>
+
+            <div class="mb-3">
+                <label for="options" class="form-label fw-semibold">Seçenekler</label>
+                <input type="text" id="options" name="options"
+                       class="form-control form-control-lg shadow-sm"
+                       placeholder="Örn: Evet, Hayır, Belki" required />
+                <div class="form-text text-muted">Seçenekleri virgülle ayırarak girin.</div>
+            </div>
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="alert alert-danger shadow-sm">@ViewBag.Hata</div>
+            }
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-gradient btn-lg fw-bold shadow-sm">
+                    ✅ Anketi Oluştur
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

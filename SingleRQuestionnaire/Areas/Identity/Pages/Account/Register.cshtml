@@ -1,0 +1,51 @@
+﻿@page
+
+@model SingleRQuestionnaire.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    ViewData["BodyClass"] = "identity-page"; // body etiketine özel class ekliyoruz
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Identity.css" asp-append-version="true" />
+}
+
+<div class="identity-container">
+    <div class="identity-card">
+        <div class="text-center">
+            <h1>@ViewData["Title"]</h1>
+            <p class="text-muted">Yeni bir hesap oluşturun.</p>
+        </div>
+        <hr class="my-4" />
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">E-posta</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password">Şifre</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.ConfirmPassword">Şifreyi Onayla</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mt-3">Kayıt Ol</button>
+        </form>
+        <div class="sub-links text-center">
+            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Zaten bir hesabınız var mı? Giriş Yapın</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
