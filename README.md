@@ -4,7 +4,7 @@
 
 ## Proje Hakkında
 
-Bu proje, **.NET SignalR** teknolojisini derinlemesine öğrenme hedefiyle geliştirilmiş olup, modern bir web uygulamasının temel taşlarını bir araya getirmeyi amaçlamaktadır. SignalR'ın gücüyle anlık iletişim sağlanırken, ASP.NET Core Identity ile güvenli kullanıcı yönetimi ve MongoDB ile esnek veri depolama çözümleri sunulmaktadır. Kullanıcılar kendi anketlerini oluşturabilir, linkini paylaşabilir ve sonuçları canlı olarak takip edebilir.
+Bu proje, **.NET SignalR** teknolojisini öğrenme hedefiyle geliştirilmiş olup, bir web uygulamasının temel taşlarını bir araya getirmeyi amaçlamaktadır. SignalR'ın gücüyle anlık iletişim sağlanırken, ASP.NET Core Identity ile güvenli kullanıcı yönetimi ve MongoDB ile esnek veri depolama çözümleri sunulmaktadır. Kullanıcılar kendi anketlerini oluşturabilir, linkini paylaşabilir ve sonuçları canlı olarak takip edebilir.
 
 ## 🚀 Öne Çıkan Özellikler
 
