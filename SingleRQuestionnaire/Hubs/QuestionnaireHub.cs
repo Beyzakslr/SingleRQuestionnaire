@@ -30,9 +30,9 @@ public class QuestionnaireHub : Hub
         var userId = Context.UserIdentifier;
         if (userId == null) return;
 
-        var basarili = await _mongoDbService.VoteAsync(pollId, secenek, userId);
+        var polls = await _mongoDbService.VoteAsync(pollId, secenek, userId);
 
-        if (basarili)
+        if (polls)
         {
             var poll = await _mongoDbService.GetAsync(pollId);
             if (poll != null)
